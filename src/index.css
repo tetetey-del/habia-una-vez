@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-fondo font-texto text-tinta antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-titulo leading-tight;
+  }
+  input, select, textarea {
+    @apply text-base;
+  }
+}
+
+@layer components {
+  .campo {
+    @apply w-full rounded-xl border border-tinta/15 bg-white px-3 py-2.5 text-tinta outline-none transition
+      placeholder:text-tinta-suave/60 focus:border-violeta focus:ring-2 focus:ring-violeta/20;
+  }
+  .etiqueta {
+    @apply mb-1 block text-sm font-semibold text-tinta;
+  }
+  .tarjeta {
+    @apply rounded-2xl border border-tinta/10 bg-white shadow-suave;
+  }
+  .panel-tarjeta {
+    @apply rounded-xl border border-slate-200 bg-white;
+  }
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Pizarrón de la agenda */
+  .pizarron {
+    background-color: #24332c;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 6px 6px;
+  }
+  /* Parte de taller */
+  .parte {
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 31px, rgba(34, 26, 51, 0.06) 32px);
+  }
+}
+
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+}
