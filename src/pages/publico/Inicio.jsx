@@ -118,7 +118,7 @@ export default function Inicio() {
             <div className="grid gap-5 sm:grid-cols-[2fr_1fr]">
               {[
                 { tipo: 'juego', titulo: 'Para jugar', clase: 'bg-turquesa-claro text-teal-900' },
-                { tipo: 'sector', titulo: 'Para los grandes', clase: 'bg-coral-claro text-coral' },
+                { tipo: 'sector', titulo: 'Además, el salón tiene', clase: 'bg-coral-claro text-coral' },
               ].map((g) => (
                 <div key={g.tipo}>
                   <h3 className="mb-2 text-lg font-bold text-tinta-suave">{g.titulo}</h3>
