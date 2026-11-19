@@ -118,12 +118,12 @@ export default function Inicio() {
             <div className="grid gap-5 sm:grid-cols-[2fr_1fr]">
               {[
                 { tipo: 'juego', titulo: 'Para jugar', clase: 'bg-turquesa-claro text-teal-900' },
-                { tipo: 'sector', titulo: 'Además, el salón tiene', clase: 'bg-coral-claro text-coral' },
+                { tipo: 'sector', titulo: 'Además disponemos de', clase: 'bg-coral-claro text-coral' },
               ].map((g) => (
                 <div key={g.tipo}>
                   <h3 className="mb-2 text-lg font-bold text-tinta-suave">{g.titulo}</h3>
                   <ul className="flex flex-wrap gap-2">
-                    {catalogo.juegos.filter((j) => j.tipo === g.tipo).map((j) => (
+                    {catalogo.juegos.filter((j) => j.tipo === g.tipo && j.nombre !== 'Baños').map((j) => (
                       <li key={j.nombre} className={`rounded-full px-4 py-2 text-sm font-bold ${g.clase}`}>{j.nombre}</li>
                     ))}
                   </ul>
