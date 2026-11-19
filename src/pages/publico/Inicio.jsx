@@ -2,13 +2,13 @@ import { Link } from 'react-router-dom'
 import { CalendarHeart, PartyPopper, HandCoins, Check, Minus, ArrowRight } from 'lucide-react'
 import { useCatalogo } from '../../lib/datos'
 import { pesos } from '../../lib/formato'
-import { Castillo, Globos } from '../../components/Logo'
+import EscenaFiesta from '../../components/EscenaFiesta'
 import { Aviso, Cargando } from '../../components/ui'
 
 const PASOS = [
   { icono: CalendarHeart, titulo: 'Elegí tu fecha', texto: 'Mirá qué turnos quedan libres y tocá el que te gusta.', color: 'bg-turquesa' },
-  { icono: PartyPopper, titulo: 'Armá tu fiesta', texto: 'Combo, invitados y adicionales. El total se calcula al toque.', color: 'bg-coral' },
-  { icono: HandCoins, titulo: 'Señá y listo', texto: 'Te guardamos el turno por 48 horas para que señes el 30 %.', color: 'bg-amarillo' },
+  { icono: PartyPopper, titulo: 'Armá tu fiesta', texto: 'Combo, invitados y adicionales.', color: 'bg-coral' },
+  { icono: HandCoins, titulo: 'Señá y listo', texto: 'Te guardamos el turno por 48 h hasta que señes el 30 %.', color: 'bg-amarillo' },
 ]
 
 export default function Inicio() {
@@ -22,13 +22,12 @@ export default function Inicio() {
         <div className="absolute -left-16 top-40 h-40 w-40 rounded-full bg-turquesa/20" aria-hidden="true" />
         <div className="relative mx-auto grid max-w-5xl items-center gap-6 px-4 pb-10 pt-8 sm:grid-cols-2 sm:pt-14">
           <div>
-            <p className="mb-3 inline-block rounded-full bg-violeta-claro px-3 py-1 text-sm font-bold text-violeta">Un solo cumple por turno: el salón es para ustedes</p>
             <h1 className="text-4xl font-extrabold text-violeta sm:text-5xl">
               Había una vez<br />
               <span className="text-tinta">un cumple inolvidable</span>
             </h1>
             <p className="mt-4 max-w-md text-lg text-tinta-suave">
-              Castillos, pelotero, toro mecánico y dos coordinadoras que cuidan a los chicos mientras ustedes disfrutan.
+              Castillos, pelotero, toro mecánico y coordinadoras para que cuiden a los chicos. ¡Un solo cumple por turno para que puedan disfrutar mejor!
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link to="/fechas" className="inline-flex items-center gap-2 rounded-2xl bg-violeta px-6 py-3.5 text-lg font-bold text-white shadow-globo transition hover:bg-violeta-oscuro">
@@ -39,9 +38,8 @@ export default function Inicio() {
               </Link>
             </div>
           </div>
-          <div className="relative mx-auto w-full max-w-sm">
-            <Globos className="absolute -left-4 -top-6 w-20 sm:w-24" />
-            <Castillo className="w-full" />
+          <div className="relative mx-auto w-full max-w-md">
+            <EscenaFiesta className="w-full" />
           </div>
         </div>
       </section>
