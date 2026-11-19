@@ -6,7 +6,7 @@ import { consulta, useCarga } from '../../lib/datos'
 import { useSesion } from '../../lib/sesion'
 import { diasEntre, hoyAR, fechaDeTs } from '../../lib/formato'
 import { Aviso, Boton, Cargando, Encabezado, EstadoJuego, Modal, Campo } from '../../components/ui'
-import { ModalReportar } from '../../components/PanelComun'
+import { ModalReportar, PestanasMantenimiento } from '../../components/PanelComun'
 
 function avance(j) {
   if (!j.frecuencia_tipo) return null
@@ -33,9 +33,8 @@ export default function Juegos() {
 
   return (
     <div>
-      <Encabezado titulo="Juegos y sectores" subtitulo="Cada cierre de alquiler suma un evento. Al llegar a la frecuencia se abre una orden preventiva sola.">
-        <Link to="/panel/ordenes" className="rounded-xl bg-white px-4 py-2.5 text-sm font-bold ring-1 ring-slate-200">Ver órdenes</Link>
-      </Encabezado>
+      <Encabezado titulo="Mantenimiento" />
+      <PestanasMantenimiento actual="juegos" />
       {mensaje && <Aviso tipo="exito" className="mb-4">{mensaje}</Aviso>}
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {datos.juegos.map((j) => {

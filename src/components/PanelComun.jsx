@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { MessageCircle } from 'lucide-react'
 import { supabase, rpc, nuevaClave } from '../lib/supabase'
 import { consulta } from '../lib/datos'
@@ -196,5 +197,26 @@ export function Numero({ titulo, valor, detalle, tono = 'neutro', onClick }) {
       <p className={`num mt-1 whitespace-nowrap font-extrabold leading-tight ${largo > 9 ? 'text-lg sm:text-2xl xl:text-3xl' : largo > 6 ? 'text-xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>{valor}</p>
       {detalle && <p className={`mt-1 text-xs ${tono === 'violeta' ? 'text-white/80' : 'text-slate-500'}`}>{detalle}</p>}
     </Etiqueta>
+  )
+}
+
+/** Pestañas de la sección Mantenimiento */
+export function PestanasMantenimiento({ actual }) {
+  const pestañas = [
+    { a: '/panel/juegos', texto: 'Juegos y sectores', clave: 'juegos' },
+    { a: '/panel/ordenes', texto: 'Órdenes', clave: 'ordenes' },
+  ]
+  return (
+    <div className="mb-5 flex rounded-xl bg-white p-1 ring-1 ring-slate-200 sm:inline-flex">
+      {pestañas.map((p) => (
+        <Link
+          key={p.clave}
+          to={p.a}
+          className={`flex-1 rounded-lg px-4 py-2 text-center text-sm font-bold sm:flex-none ${actual === p.clave ? 'bg-slate-900 text-white' : 'text-slate-600 hover:bg-slate-100'}`}
+        >
+          {p.texto}
+        </Link>
+      ))}
+    </div>
   )
 }

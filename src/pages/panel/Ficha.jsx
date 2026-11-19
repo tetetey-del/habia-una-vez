@@ -83,7 +83,7 @@ export default function Ficha() {
           <BotonWhatsApp celular={a.celular} texto={textoWhatsApp}>
             {a.estado === 'en_riesgo' ? 'Avisar a la familia' : 'Escribir'}
           </BotonWhatsApp>
-          <Boton variante="secundario" tamano="sm" icono={CalendarArrowDown} onClick={() => descargarIcs(a)}>.ics</Boton>
+          <Boton variante="secundario" tamano="sm" icono={CalendarArrowDown} onClick={() => descargarIcs(a)}>Calendario</Boton>
         </div>
       </header>
 

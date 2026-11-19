@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Download } from 'lucide-react'
 import { rpc } from '../../lib/supabase'
 import { useCarga } from '../../lib/datos'
@@ -14,6 +14,8 @@ function mesDe(iso) {
 }
 
 export default function Informes() {
+  const navegar = useNavigate()
+  const ir = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   const [rango, setRango] = useState(() => mesDe(hoyAR()))
   const { datos, error, cargando, recargar } = useCarga(() => rpc('informe', { p_desde: rango.desde, p_hasta: rango.hasta }), [rango.desde, rango.hasta])
 
@@ -42,7 +44,7 @@ export default function Informes() {
 
   return (
     <div>
-      <Encabezado titulo="Informes" subtitulo="Ingresos, deudas y mantenimiento del período, armados con los movimientos registrados.">
+      <Encabezado titulo="Informes" subtitulo="Ingresos, deudas y mantenimiento del período.">
         <Boton variante="secundario" onClick={() => mover(-1)}>Mes anterior</Boton>
         <Boton variante="secundario" onClick={() => mover(1)}>Mes siguiente</Boton>
       </Encabezado>
@@ -58,13 +60,13 @@ export default function Informes() {
       ) : datos && (
         <div className="space-y-6">
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            <Numero titulo="Ingresos" valor={pesos(datos.ingresos)} detalle={`${datos.pagos.length} pagos no anulados`} tono="violeta" />
-            <Numero titulo="Devoluciones" valor={pesos(salidas)} detalle={datos.anulados.cantidad > 0 ? `${datos.anulados.cantidad} recibos anulados aparte` : 'Sin anulaciones'} />
-            <Numero titulo="Deudas al día de hoy" valor={pesos(deuda)} detalle={`${datos.deudas.length} alquileres con saldo`} tono={deuda > 0 ? 'alerta' : 'neutro'} />
-            <Numero titulo="Costo de mantenimiento" valor={pesos(datos.mantenimiento.costo)} detalle={`${datos.mantenimiento.ordenes} órdenes del período`} />
+            <Numero titulo="Ingresos" valor={pesos(datos.ingresos)} detalle={`${datos.pagos.length} pagos no anulados`} tono="violeta" onClick={() => ir('inf-pagos')} />
+            <Numero titulo="Devoluciones" valor={pesos(salidas)} detalle={datos.anulados.cantidad > 0 ? `${datos.anulados.cantidad} recibos anulados aparte` : 'Sin anulaciones'} onClick={() => navegar('/panel/cobranzas?tipo=salidas')} />
+            <Numero titulo="Deudas al día de hoy" valor={pesos(deuda)} detalle={`${datos.deudas.length} alquileres con saldo`} tono={deuda > 0 ? 'alerta' : 'neutro'} onClick={() => ir('inf-deudas')} />
+            <Numero titulo="Costo de mantenimiento" valor={pesos(datos.mantenimiento.costo)} detalle={`${datos.mantenimiento.ordenes} órdenes del período`} onClick={() => ir('inf-mantenimiento')} />
           </div>
 
-          <section className="panel-tarjeta p-4">
+          <section id="inf-pagos" className="panel-tarjeta scroll-mt-20 p-4">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-bold">Pagos del período</h2>
               <Boton tamano="sm" variante="oscuro" icono={Download} disabled={datos.pagos.length === 0} onClick={bajarCsv}>Descargar CSV</Boton>
@@ -98,7 +100,7 @@ export default function Informes() {
           </section>
 
           <div className="grid gap-6 lg:grid-cols-2">
-            <section className="panel-tarjeta p-4">
+            <section id="inf-deudas" className="panel-tarjeta scroll-mt-20 p-4">
               <h2 className="mb-3 font-bold">Saldos pendientes</h2>
               {datos.deudas.length === 0 ? (
                 <Vacio titulo="No hay saldos pendientes" />
@@ -117,7 +119,7 @@ export default function Informes() {
               )}
             </section>
 
-            <section className="panel-tarjeta p-4">
+            <section id="inf-mantenimiento" className="panel-tarjeta scroll-mt-20 p-4">
               <h2 className="mb-3 font-bold">Mantenimiento por juego</h2>
               {datos.mantenimiento.por_juego.length === 0 ? (
                 <Vacio titulo="Sin órdenes en el período" />

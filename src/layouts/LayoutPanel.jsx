@@ -1,5 +1,5 @@
 import { Suspense, useEffect, useState } from 'react'
-import { NavLink, Outlet, useNavigate, Navigate } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate, Navigate, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, CalendarDays, ListChecks, Wallet, ClipboardList, Wrench, ClipboardCheck,
   ChartColumn, Settings, LogOut, Menu, X, Plus,
@@ -16,8 +16,8 @@ const MENU = [
   { a: '/panel/alquileres', texto: 'Alquileres', icono: ListChecks, roles: ['admin'] },
   { a: '/panel/cobranzas', texto: 'Cobranzas', icono: Wallet, roles: ['admin'] },
   { a: '/panel/hoja', texto: 'Hoja del turno', icono: ClipboardCheck, roles: ['admin', 'coordinacion'] },
-  { a: '/panel/juegos', texto: 'Juegos', icono: Wrench, roles: ['admin', 'mantenimiento'] },
-  { a: '/panel/ordenes', texto: 'Órdenes', icono: ClipboardList, roles: ['admin', 'mantenimiento', 'coordinacion'] },
+  { a: '/panel/juegos', texto: 'Mantenimiento', icono: Wrench, roles: ['admin', 'mantenimiento'], tambien: '/panel/ordenes' },
+  { a: '/panel/ordenes', texto: 'Mis reportes', icono: ClipboardList, roles: ['coordinacion'] },
   { a: '/panel/informes', texto: 'Informes', icono: ChartColumn, roles: ['admin'] },
   { a: '/panel/configuracion', texto: 'Configuración', icono: Settings, roles: ['admin'] },
 ]
@@ -26,6 +26,7 @@ export default function LayoutPanel() {
   const { perfil, cargando, salir } = useSesion()
   const [abierto, setAbierto] = useState(false)
   const navegar = useNavigate()
+  const { pathname } = useLocation()
 
   // Al abrir el panel se vencen las pre-reservas y se generan las preventivas por días
   useEffect(() => {
@@ -47,8 +48,8 @@ export default function LayoutPanel() {
           <Plus className="h-4 w-4" /> Nuevo alquiler
         </NavLink>
       )}
-      {items.map(({ a, texto, icono: Icono, fin }) => (
-        <NavLink key={a} to={a} end={fin} className={enlace} onClick={() => setAbierto(false)}>
+      {items.map(({ a, texto, icono: Icono, fin, tambien }) => (
+        <NavLink key={a} to={a} end={fin} className={(e) => enlace({ isActive: e.isActive || (tambien && pathname.startsWith(tambien)) })} onClick={() => setAbierto(false)}>
           <Icono className="h-4 w-4" /> {texto}
         </NavLink>
       ))}

@@ -11,7 +11,8 @@ const PERIODOS = { proximos: 'Próximos', pasados: 'Pasados', todos: 'Todos' }
 export default function Alquileres() {
   const [params, setParams] = useSearchParams()
   const estado = params.get('estado') || ''
-  const periodo = params.get('periodo') || (estado ? 'todos' : 'proximos')
+  const conSaldo = params.get('saldo') === '1'
+  const periodo = params.get('periodo') || (estado || conSaldo ? 'todos' : 'proximos')
   const [busqueda, setBusqueda] = useState('')
 
   const { datos, error, cargando, recargar } = useCarga(() =>
@@ -23,10 +24,12 @@ export default function Alquileres() {
   )
 
   const hoy = hoyAR()
+  const saldoVisible = (a) => !['cancelado', 'vencido', 'pre_reserva'].includes(a.estado) && a.saldo > 0
   const filtrados = useMemo(() => {
     const q = busqueda.trim().toLowerCase()
     let lista = (datos || []).filter((a) => {
       if (estado && a.estado !== estado) return false
+      if (conSaldo && !saldoVisible(a)) return false
       if (periodo === 'proximos' && a.fecha < hoy) return false
       if (periodo === 'pasados' && a.fecha >= hoy) return false
       if (q && !`${a.codigo} ${a.familia} ${a.homenajeado}`.toLowerCase().includes(q)) return false
@@ -34,7 +37,7 @@ export default function Alquileres() {
     })
     if (periodo === 'pasados') lista = [...lista].reverse()
     return lista
-  }, [datos, estado, periodo, busqueda, hoy])
+  }, [datos, estado, conSaldo, periodo, busqueda, hoy])
 
   const conteo = useMemo(() => {
     const c = {}
@@ -49,7 +52,6 @@ export default function Alquileres() {
     setParams(p, { replace: true })
   }
 
-  const saldoVisible = (a) => !['cancelado', 'vencido', 'pre_reserva'].includes(a.estado) && a.saldo > 0
 
   return (
     <div>
@@ -72,6 +74,7 @@ export default function Alquileres() {
           </div>
         </div>
         <div className="flex flex-wrap gap-1.5">
+          <button onClick={() => poner('saldo', conSaldo ? '' : '1')} className={`rounded-full px-3 py-1 text-xs font-bold ring-1 ${conSaldo ? 'bg-amber-100 text-amber-900 ring-amber-300' : 'bg-white ring-slate-200'}`}>Con saldo a cobrar</button>
           <button onClick={() => poner('estado', '')} className={`rounded-full px-3 py-1 text-xs font-bold ring-1 ${!estado ? 'bg-slate-900 text-white ring-slate-900' : 'bg-white ring-slate-200'}`}>Todos</button>
           {ORDEN_ESTADOS.map((e) => (
             <button key={e} onClick={() => poner('estado', estado === e ? '' : e)} className={`rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset ${estado === e ? ESTADOS[e].clase : 'bg-white text-slate-600 ring-slate-200'}`}>

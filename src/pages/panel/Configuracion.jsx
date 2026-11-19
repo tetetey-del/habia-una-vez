@@ -78,8 +78,7 @@ function Precios({ datos, intentar }) {
 
   return (
     <section className="panel-tarjeta p-4">
-      <h2 className="font-bold">Precios</h2>
-      <p className="mb-3 text-sm text-slate-500">Un precio nuevo rige para las cotizaciones hechas desde su fecha de vigencia. Los alquileres ya cotizados conservan su importe.</p>
+      <h2 className="mb-3 font-bold">Precios</h2>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[560px] text-sm">
           <thead className="text-left text-xs uppercase text-slate-500"><tr><th className="py-1">Concepto</th><th className="text-right">Vigente</th><th className="text-right">Próximo cambio</th><th /></tr></thead>
@@ -184,7 +183,7 @@ function Feriados({ feriados, intentar }) {
       <ul className="mb-3 max-h-56 divide-y divide-slate-100 overflow-y-auto text-sm">
         {feriados.filter((x) => x.fecha >= hoy).map((x) => (
           <li key={x.fecha} className="flex items-center justify-between py-1.5">
-            <span><span className="num font-semibold">{fechaCorta(x.fecha)}/{x.fecha.slice(2, 4)}</span> · {x.nombre}</span>
+            <span><span className="num font-semibold">{fechaCorta(x.fecha)}/{x.fecha.slice(0, 4)}</span> · {x.nombre}</span>
             <button aria-label={`Quitar ${x.nombre}`} onClick={() => intentar(() => consulta(supabase.from('feriados').delete().eq('fecha', x.fecha)), 'Feriado quitado.')} className="p-1 text-slate-400 hover:text-red-600">
               <Trash2 className="h-4 w-4" />
             </button>

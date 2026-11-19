@@ -90,7 +90,7 @@ export default function Agenda() {
         <button onClick={() => setDesde(sumarDias(desde, 7))} className="rounded-lg bg-white p-2 ring-1 ring-slate-200" aria-label="Semana siguiente"><ChevronRight className="h-5 w-5" /></button>
       </Encabezado>
 
-      <div className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600">
+      <div className="mb-3 hidden flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 md:flex">
         {Object.entries(ESTADOS).filter(([k]) => !['vencido', 'cancelado'].includes(k)).map(([k, e]) => (
           <span key={k} className="flex items-center gap-1"><span className={`h-2.5 w-2.5 rounded-full ${e.punto}`} /> {e.nombre}</span>
         ))}
@@ -100,7 +100,54 @@ export default function Agenda() {
       {cargando && !datos ? (
         <Cargando />
       ) : (
-        <div className="pizarron overflow-x-auto rounded-2xl border-8 border-[#7a5a3a] p-3 shadow-inner">
+        <>
+        {/* Celular: lista compacta por día */}
+        <ul className="space-y-2 md:hidden">
+          {dias.map((d) => (
+            <li key={d.fecha} className={`panel-tarjeta overflow-hidden ${d.fecha === hoy ? 'ring-2 ring-amarillo' : ''}`}>
+              <p className="flex items-center justify-between bg-slate-900 px-3 py-1.5 text-sm font-bold text-white">
+                <span>{primeraMayuscula(diaSemanaCorto(d.fecha))} {fechaCorta(d.fecha)}</span>
+                {aFecha(d.fecha).getDay() > 0 && aFecha(d.fecha).getDay() < 6 && <span className="text-xs font-semibold text-amarillo">Feriado</span>}
+              </p>
+              <ul className="divide-y divide-slate-100">
+                {datos.turnos.map((t) => {
+                  const c = d.celdas[t.id]
+                  const a = c?.alquiler
+                  const contenido = (
+                    <>
+                      <span className="num w-12 shrink-0 text-sm font-bold text-slate-500">{hora(t.hora_inicio)}</span>
+                      {a ? (
+                        <>
+                          <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${ESTADOS[a.estado].punto}`} />
+                          <span className="min-w-0 flex-1 truncate text-sm"><strong>{a.homenajeado}</strong> · {a.familia}</span>
+                          <span className="shrink-0 text-xs font-semibold text-slate-500">{ESTADOS[a.estado].nombre}</span>
+                        </>
+                      ) : c?.estado === 'libre' ? (
+                        <span className="flex-1 text-sm font-semibold text-emerald-700">Libre · cargar</span>
+                      ) : c?.estado === 'mantenimiento' ? (
+                        <span className="flex flex-1 items-center gap-1 text-sm font-semibold text-amber-700"><Wrench className="h-3.5 w-3.5" /> Bloqueado</span>
+                      ) : (
+                        <span className="flex-1 text-sm text-slate-300">—</span>
+                      )}
+                    </>
+                  )
+                  const destino = a ? `/panel/alquileres/${a.id}` : c?.estado === 'libre' ? `/panel/alquileres/nuevo?fecha=${d.fecha}&turno=${t.id}` : null
+                  return (
+                    <li key={t.id}>
+                      {destino ? (
+                        <Link to={destino} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50">{contenido}</Link>
+                      ) : (
+                        <div className="flex items-center gap-2 px-3 py-2">{contenido}</div>
+                      )}
+                    </li>
+                  )
+                })}
+              </ul>
+            </li>
+          ))}
+        </ul>
+        {/* Compu: pizarrón */}
+        <div className="pizarron hidden overflow-x-auto rounded-2xl border-8 border-[#7a5a3a] p-3 shadow-inner md:block">
           <table className="w-full min-w-[720px] border-separate border-spacing-2">
             <thead>
               <tr>
@@ -130,6 +177,7 @@ export default function Agenda() {
             </tbody>
           </table>
         </div>
+        </>
       )}
     </div>
   )

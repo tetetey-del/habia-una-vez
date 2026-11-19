@@ -6,7 +6,7 @@ import { consulta, useCarga } from '../../lib/datos'
 import { useSesion } from '../../lib/sesion'
 import { pesos, fechaDeTs } from '../../lib/formato'
 import { Aviso, Boton, Cargando, Encabezado, EstadoOrden, Prioridad, Vacio } from '../../components/ui'
-import { ModalReportar } from '../../components/PanelComun'
+import { ModalReportar, PestanasMantenimiento } from '../../components/PanelComun'
 
 const FILTROS = { abiertas: 'Abiertas', resueltas: 'Para verificar', todas: 'Todas' }
 const PESO = { cierre_salon: 0, critica: 1, media: 2, baja: 3 }
@@ -34,9 +34,10 @@ export default function Ordenes() {
 
   return (
     <div>
-      <Encabezado titulo="Órdenes de mantenimiento" subtitulo={soloLectura ? 'Las órdenes que reportaste.' : 'Partes de taller de juegos y sectores.'}>
-        <Boton variante="oscuro" icono={Plus} onClick={() => setNueva(true)}>Nueva orden</Boton>
+      <Encabezado titulo={soloLectura ? 'Mis reportes' : 'Mantenimiento'}>
+        <Boton variante="oscuro" icono={Plus} onClick={() => setNueva(true)}>{soloLectura ? 'Reportar' : 'Nueva orden'}</Boton>
       </Encabezado>
+      {!soloLectura && <PestanasMantenimiento actual="ordenes" />}
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <div className="flex rounded-xl bg-white p-1 ring-1 ring-slate-200">

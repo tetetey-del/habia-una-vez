@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { supabase, rpc } from '../../lib/supabase'
 import { consulta, useCarga } from '../../lib/datos'
@@ -13,7 +13,8 @@ export default function Cobranzas() {
   const hoy = hoyAR()
   const [desde, setDesde] = useState(hoy.slice(0, 8) + '01')
   const [hasta, setHasta] = useState(hoy)
-  const [tipo, setTipo] = useState('')
+  const [params] = useSearchParams()
+  const [tipo, setTipo] = useState(params.get('tipo') || '')
   const [busqueda, setBusqueda] = useState('')
   const [anular, setAnular] = useState(null)
   const [motivo, setMotivo] = useState('')
@@ -70,7 +71,7 @@ export default function Cobranzas() {
 
   return (
     <div>
-      <Encabezado titulo="Cobranzas" subtitulo="Los movimientos nunca se borran: un error se anula y queda a la vista." />
+      <Encabezado titulo="Cobranzas" />
 
       <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <Numero titulo="Cobrado en el período" valor={pesos(totales.ingresos)} tono="violeta" />

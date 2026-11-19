@@ -34,11 +34,11 @@ export default function Tablero() {
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Numero titulo="Turnos próximos 7 días" valor={t.proximos_7} onClick={() => navegar('/panel/agenda')} />
-        <Numero titulo="En riesgo" valor={t.en_riesgo} tono={t.en_riesgo > 0 ? 'peligro' : 'neutro'} detalle="Por mantenimiento" />
+        <Numero titulo="En riesgo" valor={t.en_riesgo} tono={t.en_riesgo > 0 ? 'peligro' : 'neutro'} detalle="Por mantenimiento" onClick={() => navegar('/panel/alquileres?estado=en_riesgo')} />
         <Numero titulo="Pre-reservas" valor={t.pre_reservas} tono={t.por_vencer > 0 ? 'alerta' : 'neutro'} detalle={`${t.por_vencer} ${t.por_vencer === 1 ? 'vence' : 'vencen'} en menos de 12 h`} onClick={() => navegar('/panel/alquileres?estado=pre_reserva')} />
         <Numero titulo="Por cerrar" valor={t.por_cerrar} detalle="Realizados sin cerrar" onClick={() => navegar('/panel/alquileres?estado=realizado')} />
         <Numero titulo="Ingresos del mes" valor={pesos(t.ingresos_mes)} tono="violeta" onClick={() => navegar('/panel/informes')} />
-        <Numero titulo="Saldos a cobrar" valor={pesos(t.deuda_total)} detalle={`${t.saldos_vencidos} fuera de plazo`} tono={t.saldos_vencidos > 0 ? 'alerta' : 'neutro'} />
+        <Numero titulo="Saldos a cobrar" valor={pesos(t.deuda_total)} detalle={`${t.saldos_vencidos} fuera de plazo`} tono={t.saldos_vencidos > 0 ? 'alerta' : 'neutro'} onClick={() => navegar('/panel/alquileres?saldo=1')} />
         <Numero titulo="Órdenes abiertas" valor={t.ordenes_abiertas} detalle={`${t.ordenes_criticas} ${t.ordenes_criticas === 1 ? 'crítica' : 'críticas'}`} tono={t.ordenes_criticas > 0 ? 'peligro' : 'neutro'} onClick={() => navegar('/panel/ordenes')} />
       </div>
 
