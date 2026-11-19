@@ -75,7 +75,7 @@ export default function Inicio() {
           <section className="mx-auto max-w-5xl px-4 py-8">
             <h2 className="text-3xl font-extrabold">Nuestros combos</h2>
             <p className="mb-5 text-tinta-suave">
-              Para {catalogo.chicos_referencia} chicos y {catalogo.adultos_referencia} adultos. Turnos de 2 horas y media.
+              {catalogo.capacidad} personas (pensado para {catalogo.chicos_referencia} chicos y {catalogo.adultos_referencia} adultos) con turnos de 2:30 h.
             </p>
             <div className="grid gap-4 sm:grid-cols-2">
               {catalogo.combos.map((c, i) => (
@@ -115,16 +115,21 @@ export default function Inicio() {
           {/* Juegos */}
           <section className="mx-auto max-w-5xl px-4 py-8">
             <h2 className="mb-4 text-3xl font-extrabold">Juegos y espacios</h2>
-            <ul className="flex flex-wrap gap-2">
-              {catalogo.juegos.map((j) => (
-                <li
-                  key={j.nombre}
-                  className={`rounded-full px-4 py-2 text-sm font-bold ${j.tipo === 'juego' ? 'bg-turquesa-claro text-teal-900' : 'bg-coral-claro text-coral'}`}
-                >
-                  {j.nombre}
-                </li>
+            <div className="grid gap-5 sm:grid-cols-[2fr_1fr]">
+              {[
+                { tipo: 'juego', titulo: 'Para jugar', clase: 'bg-turquesa-claro text-teal-900' },
+                { tipo: 'sector', titulo: 'Para los grandes', clase: 'bg-coral-claro text-coral' },
+              ].map((g) => (
+                <div key={g.tipo}>
+                  <h3 className="mb-2 text-lg font-bold text-tinta-suave">{g.titulo}</h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {catalogo.juegos.filter((j) => j.tipo === g.tipo).map((j) => (
+                      <li key={j.nombre} className={`rounded-full px-4 py-2 text-sm font-bold ${g.clase}`}>{j.nombre}</li>
+                    ))}
+                  </ul>
+                </div>
               ))}
-            </ul>
+            </div>
           </section>
         </>
       )}
