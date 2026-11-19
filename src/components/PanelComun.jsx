@@ -189,10 +189,11 @@ export function Numero({ titulo, valor, detalle, tono = 'neutro', onClick }) {
     violeta: 'bg-violeta text-white ring-violeta',
   }
   const Etiqueta = onClick ? 'button' : 'div'
+  const largo = String(valor).length
   return (
-    <Etiqueta onClick={onClick} className={`rounded-xl p-4 text-left ring-1 ${tonos[tono]} ${onClick ? 'transition hover:shadow-md' : ''}`}>
-      <p className={`text-xs font-bold uppercase tracking-wide ${tono === 'violeta' ? 'text-white/80' : 'text-slate-500'}`}>{titulo}</p>
-      <p className="num mt-1 text-3xl font-extrabold sm:text-4xl">{valor}</p>
+    <Etiqueta onClick={onClick} className={`min-w-0 overflow-hidden rounded-xl p-3 text-left ring-1 sm:p-4 ${tonos[tono]} ${onClick ? 'transition hover:shadow-md' : ''}`}>
+      <p className={`text-[11px] font-bold uppercase leading-tight tracking-wide sm:text-xs ${tono === 'violeta' ? 'text-white/80' : 'text-slate-500'}`}>{titulo}</p>
+      <p className={`num mt-1 whitespace-nowrap font-extrabold leading-tight ${largo > 9 ? 'text-lg sm:text-2xl xl:text-3xl' : largo > 6 ? 'text-xl sm:text-3xl' : 'text-3xl sm:text-4xl'}`}>{valor}</p>
       {detalle && <p className={`mt-1 text-xs ${tono === 'violeta' ? 'text-white/80' : 'text-slate-500'}`}>{detalle}</p>}
     </Etiqueta>
   )
