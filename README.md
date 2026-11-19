@@ -20,6 +20,7 @@ Sistema para un salón de fiestas infantiles: las familias eligen fecha y piden 
    | `0006_vista_contrato.sql` | Vista previa del contrato antes de aceptarlo |
    | `0007_permisos_por_columna.sql` | Edición directa limitada a las columnas permitidas |
 | `0008_reinicio_desde_la_app.sql` | Corrige el botón «Reiniciar datos de ejemplo» |
+| `0009_mensaje_neutro_mantenimiento.sql` | Las familias ven «No disponible» en vez del motivo |
 
 2. **Auth.** En *Authentication → Sign In / Providers → Email*, desactivá **Confirm email**: así una familia que crea su cuenta entra al instante (no se envían correos).
 
@@ -78,7 +79,7 @@ Todo lo que toca cupo, saldo o estado se resuelve **en una función de la base**
 - **Cancelación:** devolución sobre lo efectivamente cobrado: más de 30 días 100 %, de 30 a 15 días 50 %, menos de 15 días 0 %; por causa del salón siempre 100 %. Genera un movimiento negativo.
 - **Reprogramación:** una sola, sin cargo, con más de 15 días.
 - **Mantenimiento:** cerrar un alquiler suma 1 al contador de cada juego medido por eventos; al llegar a la frecuencia se crea la orden preventiva. La cocina se revisa por días. Verificar una preventiva vuelve el contador a cero.
-- **Riesgo:** una orden crítica sobre un juego principal (o un cierre del salón) pasa a «En riesgo» los alquileres de los próximos 14 días guardando su estado anterior, y esas fechas dejan de ofrecerse. La familia elige trasladarse sin costo o quedarse con una compensación del 15 % del combo (movimiento negativo); ambas opciones devuelven el estado anterior. Con cierre del salón el traslado es obligatorio.
+- **Riesgo:** una orden crítica sobre un juego principal (o un cierre del salón) pasa a «En riesgo» los alquileres de los próximos 14 días guardando su estado anterior, y esas fechas dejan de ofrecerse (al público le aparecen como «No disponible», sin mencionar el arreglo). La familia elige trasladarse sin costo o quedarse con una compensación del 15 % del combo (movimiento negativo); ambas opciones devuelven el estado anterior. Con cierre del salón el traslado es obligatorio.
 - **Idempotencia:** la seña y los pagos llevan una clave única; repetir la confirmación no vuelve a cobrar.
 - **RLS:** familia solo ve sus alquileres, pagos y contratos; coordinación ve los turnos de su día de trabajo; mantenimiento ve juegos y órdenes; administración ve todo. El público anónimo solo usa `disponibilidad()`, `catalogo_publico()` y `cotizar()`, que exponen únicamente los campos necesarios.
 

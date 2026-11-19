@@ -254,7 +254,7 @@ begin
     raise exception 'Para pasar de % personas cargá el motivo.', public.cfg('capacidad')::int;
   end if;
   if public.fecha_bloqueada_por_mantenimiento(v_fecha) then
-    raise exception 'Ese día no está disponible por un arreglo en el salón. Elegí otra fecha.';
+    raise exception 'Ese turno no está disponible, elegí otro.';
   end if;
   if exists (select 1 from public.alquileres
              where fecha = v_fecha and turno_id = v_turno and estado not in ('vencido', 'cancelado')) then
@@ -718,7 +718,7 @@ begin
   if public.tipo_dia(p_fecha) is null then raise exception 'El salón abre sábados, domingos y feriados. Elegí otra fecha.'; end if;
   if not exists (select 1 from public.turnos where id = p_turno and activo) then raise exception 'Elegí un turno.'; end if;
   if public.fecha_bloqueada_por_mantenimiento(p_fecha) then
-    raise exception 'Ese día no está disponible por un arreglo en el salón. Elegí otra fecha.';
+    raise exception 'Ese turno no está disponible, elegí otro.';
   end if;
   if exists (select 1 from public.alquileres
              where fecha = p_fecha and turno_id = p_turno and estado not in ('vencido', 'cancelado') and id <> p_alquiler) then

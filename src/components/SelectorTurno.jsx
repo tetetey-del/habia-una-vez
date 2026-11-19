@@ -75,8 +75,7 @@ export default function SelectorTurno({ seleccion, onElegir, variante = 'publico
       {publico && (
         <div className="mb-3 flex flex-wrap gap-3 text-xs font-semibold text-tinta-suave">
           <span className="flex items-center gap-1"><span className="h-3 w-3 rounded-full bg-turquesa" /> Libre</span>
-          <span className="flex items-center gap-1"><span className="h-3 w-3 rounded-full bg-tinta/20" /> Ocupado</span>
-          <span className="flex items-center gap-1"><span className="h-3 w-3 rounded-full bg-amarillo" /> En arreglo</span>
+          <span className="flex items-center gap-1"><span className="h-3 w-3 rounded-full bg-tinta/20" /> No disponible</span>
         </div>
       )}
 
@@ -106,7 +105,7 @@ export default function SelectorTurno({ seleccion, onElegir, variante = 'publico
                   let clase
                   if (elegido) clase = 'bg-violeta text-white ring-4 ring-violeta/25'
                   else if (libre) clase = publico ? 'bg-turquesa-claro text-teal-900 hover:bg-turquesa hover:text-white' : 'bg-emerald-50 text-emerald-800 ring-1 ring-emerald-200 hover:bg-emerald-100'
-                  else if (t.estado === 'mantenimiento') clase = 'bg-amarillo-claro text-amber-800 cursor-not-allowed'
+                  else if (t.estado === 'mantenimiento' && !publico) clase = 'bg-amarillo-claro text-amber-800 cursor-not-allowed'
                   else clase = 'bg-tinta/5 text-tinta/35 cursor-not-allowed'
                   return (
                     <button
@@ -115,11 +114,11 @@ export default function SelectorTurno({ seleccion, onElegir, variante = 'publico
                       disabled={!libre}
                       onClick={() => onElegir({ fecha: t.fecha, turno_id: t.turno_id, turno: t.turno, hora_inicio: t.hora_inicio, hora_fin: t.hora_fin, tipo_dia: t.tipo_dia })}
                       className={`${base} ${clase}`}
-                      aria-label={`${d.fecha} ${hora(t.hora_inicio)} ${libre ? 'libre' : t.estado}`}
+                      aria-label={`${d.fecha} ${hora(t.hora_inicio)} ${libre ? 'libre' : 'no disponible'}`}
                     >
                       <span className="num">{hora(t.hora_inicio)}</span>
                       <span className="text-[11px] font-semibold opacity-80">
-                        {elegido ? 'Elegido' : libre ? 'Libre' : t.estado === 'mantenimiento' ? <Wrench className="mx-auto h-3 w-3" /> : 'Ocupado'}
+                        {elegido ? 'Elegido' : libre ? 'Libre' : t.estado === 'mantenimiento' && !publico ? <Wrench className="mx-auto h-3 w-3" /> : publico ? 'No disponible' : 'Ocupado'}
                       </span>
                     </button>
                   )

@@ -121,12 +121,9 @@ export default function Inicio() {
               {catalogo.juegos.map((j) => (
                 <li
                   key={j.nombre}
-                  className={`rounded-full px-4 py-2 text-sm font-bold ${
-                    !j.disponible ? 'bg-tinta/5 text-tinta/40' : j.tipo === 'juego' ? 'bg-turquesa-claro text-teal-900' : 'bg-coral-claro text-coral'
-                  }`}
+                  className={`rounded-full px-4 py-2 text-sm font-bold ${j.tipo === 'juego' ? 'bg-turquesa-claro text-teal-900' : 'bg-coral-claro text-coral'}`}
                 >
                   {j.nombre}
-                  {!j.disponible && <span className="ml-1 text-xs font-semibold">(en arreglo)</span>}
                 </li>
               ))}
             </ul>
