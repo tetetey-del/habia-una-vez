@@ -19,6 +19,7 @@ Sistema para un salón de fiestas infantiles: las familias eligen fecha y piden 
    | `0005_datos_de_ejemplo.sql` | Usuarios de prueba, catálogo y datos sintéticos (`reiniciar_demo()`) |
    | `0006_vista_contrato.sql` | Vista previa del contrato antes de aceptarlo |
    | `0007_permisos_por_columna.sql` | Edición directa limitada a las columnas permitidas |
+| `0008_reinicio_desde_la_app.sql` | Corrige el botón «Reiniciar datos de ejemplo» |
 
 2. **Auth.** En *Authentication → Sign In / Providers → Email*, desactivá **Confirm email**: así una familia que crea su cuenta entra al instante (no se envían correos).
 

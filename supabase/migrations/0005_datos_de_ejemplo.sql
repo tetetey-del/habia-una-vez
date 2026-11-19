@@ -288,7 +288,7 @@ begin
     (7, 'correctiva', 'baja', 'abierta', 'Varilla trabada',
      'La varilla del arquero rojo no gira bien.', null, 12000, 'Coordinación',
      (h - 5) + time '20:00', (h - 5) + time '20:00', null, null, '');
-  update public.ordenes o set numero = o.numero + 1000;
+  update public.ordenes o set numero = o.numero + 1000 where true;
   update public.ordenes o set numero = x.rn from (
     select id, row_number() over (order by creado_en) rn from public.ordenes) x where x.id = o.id;
   perform setval('public.orden_numero_seq', (select max(numero) from public.ordenes));
