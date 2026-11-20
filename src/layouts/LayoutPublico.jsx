@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { Link, NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { CalendarHeart, PartyPopper, LogIn, LayoutDashboard, LogOut } from 'lucide-react'
 import { Logo } from '../components/Logo'
 import { useSesion, rutaInicioDe } from '../lib/sesion'
@@ -6,6 +6,7 @@ import { useSesion, rutaInicioDe } from '../lib/sesion'
 export default function LayoutPublico() {
   const { perfil, salir } = useSesion()
   const navegar = useNavigate()
+  const { pathname } = useLocation()
   const esEquipo = perfil && perfil.rol !== 'familia'
 
   const enlace = ({ isActive }) =>
@@ -41,7 +42,7 @@ export default function LayoutPublico() {
                   <LogOut className="h-4 w-4" />
                 </button>
               </>
-            ) : (
+            ) : pathname === '/ingresar' ? null : (
               <NavLink to="/ingresar" className={enlace}>
                 <LogIn className="h-4 w-4" />
                 <span>Ingresar</span>
