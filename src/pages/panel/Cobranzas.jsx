@@ -103,7 +103,27 @@ export default function Cobranzas() {
       ) : filtrados.length === 0 ? (
         <Vacio titulo="No hay movimientos en ese período" />
       ) : (
-        <div className="panel-tarjeta overflow-x-auto">
+        <>
+        <ul className="panel-tarjeta divide-y divide-slate-100 text-sm md:hidden">
+          {filtrados.map((m) => (
+            <li key={m.id} className={`flex items-start justify-between gap-3 p-3 ${m.anulado ? 'bg-red-50/40 text-slate-400' : ''}`}>
+              <span className="min-w-0">
+                <Link to={`/panel/alquileres/${m.alquiler_id}`} className="font-semibold">{m.codigo} · {m.familia}</Link>
+                <span className="block text-xs text-slate-500">
+                  {TIPO_MOVIMIENTO[m.tipo]}{m.recibo ? ` · Recibo ${recibo(m.recibo)}` : ''} · {fechaDeTs(m.creado_en)}
+                </span>
+                {m.anulado && <span className="block text-xs font-bold text-red-700">Anulado: {m.motivo_anulacion}</span>}
+              </span>
+              <span className="shrink-0 text-right">
+                <span className={`num block font-semibold ${m.anulado ? 'line-through' : m.monto < 0 ? 'text-red-600' : ''}`}>{pesos(m.monto)}</span>
+                {m.recibo && !m.anulado && (
+                  <button onClick={() => { setAnular(m); setMotivo(''); setErrorAccion('') }} className="text-xs font-bold text-red-600">Anular</button>
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <div className="panel-tarjeta hidden overflow-x-auto md:block">
           <table className="w-full min-w-[720px] text-sm">
             <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
               <tr>
@@ -142,6 +162,7 @@ export default function Cobranzas() {
             </tbody>
           </table>
         </div>
+        </>
       )}
 
       <Modal abierto={Boolean(anular)} onCerrar={() => setAnular(null)} titulo={`Anular recibo ${recibo(anular?.recibo)}`}>

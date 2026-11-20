@@ -210,7 +210,28 @@ export default function Ficha() {
             {movimientos.length === 0 ? (
               <p className="text-sm text-slate-500">Todavía no hay movimientos.</p>
             ) : (
-              <div className="overflow-x-auto">
+              <>
+              <ul className="divide-y divide-slate-100 text-sm md:hidden">
+                {movimientos.map((m) => (
+                  <li key={m.id} className={`flex items-start justify-between gap-3 py-2 ${m.anulado ? 'text-slate-400' : ''}`}>
+                    <span className="min-w-0">
+                      <span className="font-semibold">{TIPO_MOVIMIENTO[m.tipo]}</span>
+                      {m.anulado && <span className="ml-1 rounded bg-red-100 px-1.5 text-[10px] font-bold text-red-700">ANULADO</span>}
+                      <span className="block text-xs text-slate-500">
+                        {m.recibo ? `Recibo ${recibo(m.recibo)} · ` : ''}{fechaDeTs(m.creado_en)}{m.medio ? ` · ${m.medio}` : ''}
+                      </span>
+                      {m.anulado && <span className="block text-xs">{m.motivo_anulacion}</span>}
+                    </span>
+                    <span className="shrink-0 text-right">
+                      <span className={`num block font-semibold ${m.anulado ? 'line-through' : ''}`}>{pesos(m.monto)}</span>
+                      {m.recibo && !m.anulado && !['cancelado', 'cerrado'].includes(a.estado) && (
+                        <button onClick={() => { setAnular(m); setMotivoAnular('') }} className="text-xs font-bold text-red-600">Anular</button>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <div className="hidden overflow-x-auto md:block">
                 <table className="w-full text-sm">
                   <thead className="text-left text-xs text-slate-500">
                     <tr><th className="py-1">Recibo</th><th>Fecha</th><th>Concepto</th><th>Medio</th><th className="text-right">Monto</th><th /></tr>
@@ -237,6 +258,7 @@ export default function Ficha() {
                   </tbody>
                 </table>
               </div>
+              </>
             )}
           </section>
 

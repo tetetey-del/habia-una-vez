@@ -17,6 +17,13 @@
   }
 }
 
+@layer base {
+  /* Las columnas de una grilla nunca se estiran más que la pantalla */
+  .grid > * {
+    min-width: 0;
+  }
+}
+
 @layer components {
   .campo {
     @apply w-full rounded-xl border border-tinta/15 bg-white px-3 py-2.5 text-tinta outline-none transition

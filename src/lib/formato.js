@@ -50,7 +50,7 @@ export const fechaHora = (ts) =>
     : ''
 
 export const fechaDeTs = (ts) =>
-  ts ? new Date(ts).toLocaleDateString('es-AR', { timeZone: ZONA, day: '2-digit', month: '2-digit', year: 'numeric' }) : ''
+  ts ? new Date(ts).toLocaleDateString('es-AR', { timeZone: ZONA, day: '2-digit', month: '2-digit', year: '2-digit' }) : ''
 
 export const hora = (t) => (t ? String(t).slice(0, 5) : '')
 
