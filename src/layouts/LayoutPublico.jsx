@@ -57,9 +57,6 @@ export default function LayoutPublico() {
         <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
           <Logo claro />
           <p className="text-sm text-white/80">Cumpleaños los sábados, domingos y feriados</p>
-          <Link to="/ingresar" className="text-sm font-bold text-amarillo underline-offset-2 hover:underline">
-            Acceso del equipo
-          </Link>
         </div>
       </footer>
     </div>
